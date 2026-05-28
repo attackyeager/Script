@@ -1,0 +1,280 @@
+-- Variables
+local speedValue = 16
+local minimized = false
+
+-- Create GUI
+local gui = Instance.new("ScreenGui")
+gui.Name = "PeggiCarter"
+gui.ResetOnSpawn = false
+gui.Parent = game.Players.LocalPlayer.PlayerGui
+
+-- Frame principal
+local frame = Instance.new("Frame")
+frame.Name = "SpeedFrame"
+frame.Size = UDim2.new(0, 220, 0, 135)
+frame.Position = UDim2.new(0, 10, 0, 10)
+frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- Negro
+frame.BackgroundTransparency = 0
+frame.Parent = gui
+
+local frameCorner = Instance.new("UICorner")
+frameCorner.CornerRadius = UDim.new(0, 14)
+frameCorner.Parent = frame
+
+local frameStroke = Instance.new("UIStroke")
+frameStroke.Color = Color3.fromRGB(160, 0, 255)
+frameStroke.Thickness = 3
+frameStroke.Parent = frame
+
+-- Degradado de fondo negro a morado oscuro
+local gradient = Instance.new("UIGradient")
+gradient.Color = ColorSequence.new({
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 0, 0)),
+    ColorSequenceKeypoint.new(0.5, Color3.fromRGB(20, 0, 40)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 0, 0))
+})
+gradient.Rotation = 135
+gradient.Parent = frame
+
+-- Estrellas decorativas de fondo
+local stars = {"✦", "✧", "★", "✦", "✧", "✦", "★"}
+local starPositions = {
+    {0.05, 0.1}, {0.85, 0.05}, {0.15, 0.75}, {0.75, 0.6},
+    {0.45, 0.85}, {0.92, 0.4}, {0.6, 0.15}
+}
+for i, pos in ipairs(starPositions) do
+    local star = Instance.new("TextLabel")
+    star.Size = UDim2.new(0, 16, 0, 16)
+    star.Position = UDim2.new(pos[1], 0, pos[2], 0)
+    star.BackgroundTransparency = 1
+    star.TextColor3 = Color3.fromRGB(180, 0, 255)
+    star.TextTransparency = 0.3
+    star.TextSize = 10
+    star.Font = Enum.Font.Gotham
+    star.Text = stars[i]
+    star.ZIndex = 2
+    star.Parent = frame
+end
+
+-- Texto decorativo "Sabrina Carpenter" en el fondo
+local bgText = Instance.new("TextLabel")
+bgText.Size = UDim2.new(1, 0, 0, 20)
+bgText.Position = UDim2.new(0, 0, 0.5, 5)
+bgText.BackgroundTransparency = 1
+bgText.TextColor3 = Color3.fromRGB(120, 0, 200)
+bgText.TextTransparency = 0.55
+bgText.TextSize = 11
+bgText.Font = Enum.Font.GothamBold
+bgText.Text = "✦ S A B R I N A  C A R P E N T E R ✦"
+bgText.ZIndex = 2
+bgText.Parent = frame
+
+-- Segunda línea decorativa
+local bgText2 = Instance.new("TextLabel")
+bgText2.Size = UDim2.new(1, 0, 0, 16)
+bgText2.Position = UDim2.new(0, 0, 0.7, 0)
+bgText2.BackgroundTransparency = 1
+bgText2.TextColor3 = Color3.fromRGB(100, 0, 180)
+bgText2.TextTransparency = 0.65
+bgText2.TextSize = 9
+bgText2.Font = Enum.Font.Gotham
+bgText2.Text = "« Short n' Sweet »"
+bgText2.ZIndex = 2
+bgText2.Parent = frame
+
+-- Botón minimizar
+local minimizeButton = Instance.new("TextButton")
+minimizeButton.Size = UDim2.new(0, 22, 0, 22)
+minimizeButton.Position = UDim2.new(1, -26, 0, 4)
+minimizeButton.BackgroundColor3 = Color3.fromRGB(80, 0, 160)
+minimizeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+minimizeButton.TextSize = 14
+minimizeButton.Font = Enum.Font.GothamBold
+minimizeButton.Text = "_"
+minimizeButton.ZIndex = 4
+minimizeButton.Parent = frame
+
+local minCorner = Instance.new("UICorner")
+minCorner.CornerRadius = UDim.new(0, 6)
+minCorner.Parent = minimizeButton
+
+local minStroke = Instance.new("UIStroke")
+minStroke.Color = Color3.fromRGB(160, 0, 255)
+minStroke.Thickness = 2
+minStroke.Parent = minimizeButton
+
+-- Título Peggi Carter
+local titleLabel = Instance.new("TextLabel")
+titleLabel.Size = UDim2.new(1, -30, 0, 26)
+titleLabel.Position = UDim2.new(0, 0, 0, 4)
+titleLabel.BackgroundTransparency = 1
+titleLabel.TextColor3 = Color3.fromRGB(200, 0, 255)
+titleLabel.TextSize = 15
+titleLabel.Font = Enum.Font.GothamBold
+titleLabel.Text = "✦ Peggi Carter ✦"
+titleLabel.ZIndex = 4
+titleLabel.Parent = frame
+
+-- Contenido
+local content = Instance.new("Frame")
+content.Size = UDim2.new(1, 0, 1, -34)
+content.Position = UDim2.new(0, 0, 0, 34)
+content.BackgroundTransparency = 1
+content.ZIndex = 4
+content.Parent = frame
+
+-- Label velocidad
+local speedLabel = Instance.new("TextLabel")
+speedLabel.Size = UDim2.new(1, -20, 0, 24)
+speedLabel.Position = UDim2.new(0, 10, 0, 0)
+speedLabel.BackgroundTransparency = 1
+speedLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+speedLabel.TextSize = 15
+speedLabel.Font = Enum.Font.Gotham
+speedLabel.Text = "Speed: " .. speedValue
+speedLabel.ZIndex = 4
+speedLabel.Parent = content
+
+-- Campo de texto editable
+local inputBox = Instance.new("TextBox")
+inputBox.Size = UDim2.new(0, 80, 0, 28)
+inputBox.Position = UDim2.new(0, 70, 0, 28)
+inputBox.BackgroundColor3 = Color3.fromRGB(20, 0, 40)
+inputBox.BackgroundTransparency = 0.1
+inputBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+inputBox.TextSize = 15
+inputBox.Font = Enum.Font.GothamBold
+inputBox.Text = tostring(speedValue)
+inputBox.PlaceholderText = "Velocidad"
+inputBox.ClearTextOnFocus = true
+inputBox.ZIndex = 4
+inputBox.Parent = content
+
+local inputCorner = Instance.new("UICorner")
+inputCorner.CornerRadius = UDim.new(0, 8)
+inputCorner.Parent = inputBox
+
+local inputStroke = Instance.new("UIStroke")
+inputStroke.Color = Color3.fromRGB(160, 0, 255)
+inputStroke.Thickness = 2
+inputStroke.Parent = inputBox
+
+-- Botón -
+local decreaseButton = Instance.new("TextButton")
+decreaseButton.Size = UDim2.new(0, 50, 0, 28)
+decreaseButton.Position = UDim2.new(0, 10, 0, 28)
+decreaseButton.BackgroundColor3 = Color3.fromRGB(120, 0, 200)
+decreaseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+decreaseButton.TextSize = 20
+decreaseButton.Font = Enum.Font.GothamBold
+decreaseButton.Text = "-"
+decreaseButton.ZIndex = 4
+decreaseButton.Parent = content
+
+local decCorner = Instance.new("UICorner")
+decCorner.CornerRadius = UDim.new(0, 8)
+decCorner.Parent = decreaseButton
+
+local decStroke = Instance.new("UIStroke")
+decStroke.Color = Color3.fromRGB(160, 0, 255)
+decStroke.Thickness = 2
+decStroke.Parent = decreaseButton
+
+-- Botón +
+local increaseButton = Instance.new("TextButton")
+increaseButton.Size = UDim2.new(0, 50, 0, 28)
+increaseButton.Position = UDim2.new(0, 160, 0, 28)
+increaseButton.BackgroundColor3 = Color3.fromRGB(120, 0, 200)
+increaseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+increaseButton.TextSize = 20
+increaseButton.Font = Enum.Font.GothamBold
+increaseButton.Text = "+"
+increaseButton.ZIndex = 4
+increaseButton.Parent = content
+
+local incCorner = Instance.new("UICorner")
+incCorner.CornerRadius = UDim.new(0, 8)
+incCorner.Parent = increaseButton
+
+local incStroke = Instance.new("UIStroke")
+incStroke.Color = Color3.fromRGB(160, 0, 255)
+incStroke.Thickness = 2
+incStroke.Parent = increaseButton
+
+-- Hint
+local hintLabel = Instance.new("TextLabel")
+hintLabel.Size = UDim2.new(1, -10, 0, 18)
+hintLabel.Position = UDim2.new(0, 5, 0, 62)
+hintLabel.BackgroundTransparency = 1
+hintLabel.TextColor3 = Color3.fromRGB(200, 150, 255)
+hintLabel.TextSize = 11
+hintLabel.Font = Enum.Font.Gotham
+hintLabel.Text = "Escribe el número y presiona Enter"
+hintLabel.ZIndex = 4
+hintLabel.Parent = content
+
+-- Funciones
+local function updateAll()
+    speedLabel.Text = "Speed: " .. speedValue
+    inputBox.Text = tostring(speedValue)
+end
+
+minimizeButton.MouseButton1Click:Connect(function()
+    minimized = not minimized
+    if minimized then
+        content.Visible = false
+        frame.Size = UDim2.new(0, 220, 0, 34)
+        minimizeButton.Text = "+"
+    else
+        content.Visible = true
+        frame.Size = UDim2.new(0, 220, 0, 135)
+        minimizeButton.Text = "_"
+    end
+end)
+
+inputBox.FocusLost:Connect(function(enterPressed)
+    if enterPressed then
+        local val = tonumber(inputBox.Text)
+        if val and val >= 1 and val <= 9999999999999999999999999999999999999999999 then
+            speedValue = val
+            updateAll()
+        else
+            inputBox.Text = tostring(speedValue)
+        end
+    else
+        inputBox.Text = tostring(speedValue)
+    end
+end)
+
+decreaseButton.MouseButton1Click:Connect(function()
+    if speedValue > 1 then
+        speedValue = speedValue - 1
+        updateAll()
+    end
+end)
+
+increaseButton.MouseButton1Click:Connect(function()
+    speedValue = speedValue + 1
+    updateAll()
+end)
+
+-- Aplicar velocidad por personaje
+local function applySpeed(character)
+    while true do
+        if character and character:FindFirstChild("Humanoid") then
+            character.Humanoid.WalkSpeed = speedValue
+        end
+        wait(0.1)
+    end
+end
+
+local player = game.Players.LocalPlayer
+
+if player.Character then
+    coroutine.wrap(applySpeed)(player.Character)
+end
+
+player.CharacterAdded:Connect(function(newCharacter)
+    wait(0.5)
+    coroutine.wrap(applySpeed)(newCharacter)
+end)
