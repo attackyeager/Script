@@ -702,7 +702,7 @@ local TweenService = game:GetService("TweenService")
 
 local dir = "Server Finder Deluxe"
 local file = dir.."/sfd_logo.png"
-local link = "https://raw.githubusercontent.com/attackyeager/Server-Finder-Deluxe/main/Logo%20m%C3%A9tallique%20de%20Server%20Finder%20Deluxe.png"
+local link = "https://raw.githubusercontent.com/attackyeager/Imagen/refs/heads/main/cuervo.png"
 
 if not isfolder(dir) then
 	makefolder(dir)
