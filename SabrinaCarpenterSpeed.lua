@@ -1,10 +1,10 @@
 -- Variables
-local speedValue = 16
+local speedValue = 50
 local minimized = false
 
 -- Create GUI
 local gui = Instance.new("ScreenGui")
-gui.Name = "PeggiCarter"
+gui.Name = "🍑 PeggiCarter 🍑"
 gui.ResetOnSpawn = false
 gui.Parent = game.Players.LocalPlayer.PlayerGui
 
@@ -111,7 +111,7 @@ titleLabel.BackgroundTransparency = 1
 titleLabel.TextColor3 = Color3.fromRGB(200, 0, 255)
 titleLabel.TextSize = 15
 titleLabel.Font = Enum.Font.GothamBold
-titleLabel.Text = "✦ Peggi Carter ✦"
+titleLabel.Text = "🍑 Peggi Carter 🍑"
 titleLabel.ZIndex = 4
 titleLabel.Parent = frame
 
