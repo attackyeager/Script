@@ -65,7 +65,7 @@ bgText.TextColor3 = Color3.fromRGB(120, 0, 200)
 bgText.TextTransparency = 0.55
 bgText.TextSize = 11
 bgText.Font = Enum.Font.GothamBold
-bgText.Text = "✦ S A B R I N A  C A R P E N T E R ✦"
+bgText.Text = "🍑 S A B R I N A  C A R P E N T E R 🍑"
 bgText.ZIndex = 2
 bgText.Parent = frame
 
